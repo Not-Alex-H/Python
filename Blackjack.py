@@ -4,11 +4,11 @@ import random
 import os
 import sys
 
-deck = []
 suit = ""
 value = ""
 card = ""
 hand_values_totals = 0
+deck = []
 hand = []
 dealer = []
 deck_values = []
@@ -41,7 +41,7 @@ def setup_deck():
             case 11:
                 value = "J"
             case 12:
-                value ="Q"
+                value = "Q"
             case 13:
                 value = "K"
             case 14:
@@ -110,6 +110,15 @@ def stand():
         gamestage = "flip"
         action = ""
         time.sleep(0.2)
+def double():
+    global bet
+    if action == "double down":
+        bet = int(bet) * 2
+        hit()
+def split():
+    hand.insert("|", 1)
+   
+       
 # Now we begin playing
 while True:
     os.system('cls')
@@ -123,6 +132,7 @@ while True:
     os.system('cls')
     setup_deck()
     deal()
+    # Starting from here, you can interact with the game
     gamestage = "dealt"
     while gamestage == "dealt":
         action = input()
@@ -139,9 +149,10 @@ while True:
             print("Dealer total: " + str(dealer_values_totals))
         hit()
         stand()
+        double()
     if gamestage == "bust":
         print("You lose")
-        money = money - bet
+        money = int(money) - int(bet)
     if gamestage == "flip":
         dealer_values_totals = 0
         i = 0
@@ -187,8 +198,13 @@ while True:
             money = int(money) + int(bet)
         else:
             if hand_values_totals < dealer_values_totals:
-                print("You lose")
-                money = int(money) - int(bet)
+                if dealer_values_totals > 21:
+                    print("You win!")
+                    money = int(money) + int(bet)
+                else:        
+                    print("You lose")
+                    money = int(money) - int(bet)
             else:
                 print("tie")
     time.sleep(1)
+    # proper splitting has yet to be added

@@ -11,6 +11,8 @@ total_outcomes = []
 round_totals = 0
 import random
 import time
+import os
+os.system('cls')
 def tie():
     print("Tie")
 
